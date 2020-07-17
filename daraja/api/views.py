@@ -14,26 +14,6 @@ class ExpressCallback(CreateAPIView):
     def create(self, request, *args, **kwargs):
         loggers.log_pay('This worked...')
         loggers.log_pay(request.data)
-        {'Body':
-             {'stkCallback':
-                  {
-                      'MerchantRequestID': '22077-2530619-1',
-                      'CheckoutRequestID': 'ws_CO_170720202311354891',
-                      'ResultCode': 0,
-                      'ResultDesc': 'The service request is processed successfully.',
-                      'CallbackMetadata':
-                          {'Item':
-                               [
-                                   {'Name': 'Amount', 'Value': 1.0},
-                                   {'Name': 'MpesaReceiptNumber', 'Value': 'OGH4U47ENG'},
-                                   {'Name': 'Balance'},
-                                   {'Name': 'TransactionDate', 'Value': 20200717231149},
-                                   {'Name': 'PhoneNumber', 'Value': 254728656735}
-                               ]
-                          }
-                  }
-              }
-         }
         merchant_request_id = request.data['Body']['stkCallback']['MerchantRequestID']
         loggers.log_pay({'MerchantRequestID': merchant_request_id})
         checkout_request_id = request.data['Body']['stkCallback']['CheckoutRequestID']
@@ -46,7 +26,7 @@ class ExpressCallback(CreateAPIView):
         loggers.log_pay({'Amount': amount})
         receipt_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][1]['MpesaReceiptNumber']
         loggers.log_pay({'MpesaReceiptNumber': receipt_number})
-        balance = ""
+        balance = "None"
         loggers.log_pay({'Balance': balance})
         txn_date = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['TransactionDate']
         loggers.log_pay({'TransactionDate': txn_date})
