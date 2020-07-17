@@ -12,8 +12,8 @@ class ExpressCallback(CreateAPIView):
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
+        loggers.log_pay('This worked...')
         loggers.log_pay(request.data)
-        print(request.data)
 
         merchant_request_id = request.data['Body']['stkCallback']['MerchantRequestID']
         loggers.log_pay({'MerchantRequestID': merchant_request_id})
@@ -33,3 +33,5 @@ class ExpressCallback(CreateAPIView):
         loggers.log_pay({'TransactionDate': txn_date})
         phone_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['PhoneNumber']
         loggers.log_pay({'PhoneNumber': phone_number})
+
+        print(request.data)

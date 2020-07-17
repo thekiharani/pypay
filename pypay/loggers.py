@@ -6,7 +6,7 @@ from pypay.settings import BASE_DIR
 
 timestr = time.strftime("%Y-%m-%d")
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')
 log_path = os.path.join(BASE_DIR, 'loggers/' + timestr + '.log')
 file_handler = logging.FileHandler(log_path)
