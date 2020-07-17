@@ -24,13 +24,13 @@ class ExpressCallback(CreateAPIView):
         loggers.log_pay({'ResultDesc': result_desc})
         amount = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][0]['Value']
         loggers.log_pay({'Amount': amount})
-        receipt_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][1]['MpesaReceiptNumber']
+        receipt_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][1]['Value']
         loggers.log_pay({'MpesaReceiptNumber': receipt_number})
-        balance = "None"
+        balance = ""
         loggers.log_pay({'Balance': balance})
-        txn_date = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['TransactionDate']
+        txn_date = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value']
         loggers.log_pay({'TransactionDate': txn_date})
-        phone_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['PhoneNumber']
+        phone_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value']
         loggers.log_pay({'PhoneNumber': phone_number})
 
         print(request.data)
