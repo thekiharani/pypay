@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 
 from daraja.api.serializers import ExpressCallbackSerializer
 from daraja.models import ExpressPay
+from pypay import loggers
 
 
 class ExpressCallback(CreateAPIView):
@@ -11,4 +12,9 @@ class ExpressCallback(CreateAPIView):
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
+        loggers.log_pay(request.data)
+        print(request.data)
+
+    def get(self, request, *args, **kwargs):
+        loggers.log_pay(request.data)
         print(request.data)

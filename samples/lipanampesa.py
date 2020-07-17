@@ -1,7 +1,8 @@
 from datetime import datetime
 import requests
 from samples import keys
-from samples.helpers import generate_access_token, generate_password
+from . helpers import generate_access_token, generate_password
+from pypay import loggers
 
 
 def lipa_na_mpesa():
@@ -18,12 +19,13 @@ def lipa_na_mpesa():
         "PartyA": keys.phone_number,
         "PartyB": keys.till_number,
         "PhoneNumber": keys.phone_number,
-        "CallBackURL": "https://geekforhumans.com/api/cashy/expresscbu/",
+        "CallBackURL": "https://geekforhumans.com/api/cashy/express_callback/",
         "AccountReference": "NTC-002/2020",
         "TransactionDesc": "Sales Commission"
     }
 
     response = requests.post(api_url, json=request, headers=headers)
+    loggers.log_pay(response.json())
     print(response.json())
 
 
