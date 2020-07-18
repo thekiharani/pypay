@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 
@@ -30,7 +32,24 @@ class ExpressCallback(CreateAPIView):
         loggers.log_pay({'Balance': balance})
         txn_date = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value']
         loggers.log_pay({'TransactionDate': txn_date})
+        str_txn_date = str(txn_date)
+        loggers.log_pay({'TransactionDate': str_txn_date})
+        txn_datetime = datetime.strptime(str_txn_date, "%Y%m%d%H%M%S")
+        loggers.log_pay({'TransactionDate': txn_datetime})
         phone_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value']
         loggers.log_pay({'PhoneNumber': phone_number})
+
+        txn = ExpressPay.objects.create(
+            MerchantRequestID = merchant_request_id,
+            CheckoutRequestID = checkout_request_id,
+            ResultCode = result_code,
+            ResultDesc = result_desc,
+            Amount = amount,
+            MpesaReceiptNumber = receipt_number,
+            Balance = balance,
+            TransactionDate = txn_datetime,
+            PhoneNumber = phone_number
+        )
+        txn.save()
 
         print(request.data)
