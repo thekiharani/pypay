@@ -1,7 +1,9 @@
 from datetime import datetime
 
+from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from daraja.api.serializers import ExpressCallbackSerializer
 from daraja.models import ExpressPay
@@ -51,5 +53,5 @@ class ExpressCallback(CreateAPIView):
             PhoneNumber = phone_number
         )
         txn.save()
-
         print(request.data)
+        return Response(data={'message': 'success'}, status=status.HTTP_201_CREATED)
