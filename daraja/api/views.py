@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
@@ -28,6 +29,7 @@ class ExpressCallback(CreateAPIView):
         txn_date = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][3]['Value']
         str_txn_date = str(txn_date)
         txn_datetime = datetime.strptime(str_txn_date, "%Y%m%d%H%M%S")
+        aware_txn_datetime = pytz.utc.localize(txn_datetime)
         phone_number = request.data['Body']['stkCallback']['CallbackMetadata']['Item'][4]['Value']
 
         txn = ExpressPay.objects.create(
@@ -38,7 +40,7 @@ class ExpressCallback(CreateAPIView):
             Amount = amount,
             MpesaReceiptNumber = receipt_number,
             Balance = balance,
-            TransactionDate = txn_datetime,
+            TransactionDate = aware_txn_datetime,
             PhoneNumber = phone_number
         )
         txn.save()
