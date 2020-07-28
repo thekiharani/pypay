@@ -47,3 +47,16 @@ class ExpressCallback(CreateAPIView):
         loggers.log_pay('Txn End\n')
         print(request.data)
         return Response(data={'message': 'success'}, status=status.HTTP_201_CREATED)
+
+
+class C2BValidation(CreateAPIView):
+    queryset = ExpressPay.objects.all()
+    serializer_class = ExpressCallbackSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        loggers.log_pay('Txn Start')
+        loggers.log_pay(request.data)
+        loggers.log_pay('Txn End')
+        print(request.data)
+        return Response(data={'message': 'success'}, status=status.HTTP_201_CREATED)

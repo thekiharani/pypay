@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     # local
     'accounts.apps.AccountsConfig',
     'daraja.apps.DarajaConfig',
+    'geeky.apps.GeekyConfig',
 
     # third party
     'rest_framework',
